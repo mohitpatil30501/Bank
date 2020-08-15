@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h1 class="text-center pt-5 righteous">Bank</h1>
+    <p class="text-center montserrat-alt">Developed by Mohit Patil.</p>
+    <div class="container montserrat border border-dark rounded p-3" style="max-width: 480px;">
+    <form id="login-form" action="/auth/login" method="post">
+        <h3 class="text-center righteous">LogIn</h3>
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control montserrat-alt" placeholder="Enter username" id="username" name="username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control montserrat-alt" placeholder="Enter password" id="password" name="password">
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-12 px-2 text-center">
+                <button type="submit" class="btn btn-primary border border-dark" id="submit-button" style="width:100%">Log In</button>
+            </div>
+            <div class="col-sm-6 col-12 px-2 text-center">
+                <button type="button" class="btn btn-white border border-dark" id="signup" style="width:100%">New User</button>
+            </div>
+        </div>
+    </form>
+    </div>
+</div>
+{% endblock %}
