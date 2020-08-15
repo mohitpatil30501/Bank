@@ -1,3 +1,5 @@
 # Default ignored files
 .idea
 venv
+database/__pycache__/
+module/__pycache__/
