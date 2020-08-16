@@ -1,4 +1,57 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Profile</h1>
+<div>
+    <h1 class="text-center pt-2 righteous text-dark"><a href="/" class="text-dark" style="text-decoration: none;">Bank</a></h1>
+    <p class="text-center montserrat-alt">Developed by Mohit Patil.</p>
+
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+        <h3><a class="navbar-brand righteous" href="/">Bank</a></h3>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse montserrat" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#Home">Home <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </div>
+        <a class="btn btn-outline-success my-2 my-sm-0" href="#">Logout</a>
+    </nav>
+
+    <!-- Detail Panel -->
+    <div class="container" id="Home">
+        <div class="container text-center border-dark border mx-auto p-3" style="max-width: 700px">
+            <h2 class="text-center righteous">Details</h2>
+            <h5 class="montserrat-alt"><b class="montserrat">Name:</b>{{name}}</h5>
+            <h5 class="montserrat-alt"><b class="montserrat">Mobile No.:</b>{{mobile}}</h5>
+            <h5 class="montserrat-alt"><b class="montserrat">Balance:</b>{{balance}}</h5>
+        </div>
+    </div>
+
+    <!-- Menu -->
+    <div class="container text-center py-3" style="max-width: 1000px">
+        <div class="row text-center">
+            <div class="col-sm-6 col-12 my-2">
+                <a class="text-center btn btn-block bg-primary text-white border-dark" href="#">Deposit</a>
+            </div>
+            <div class="col-sm-6 col-12 my-2">
+                <a class="text-center btn btn-block bg-primary text-white border-dark" href="#">Withdraw</a>
+            </div>
+            <div class="col-sm-6 col-12 my-2">
+                <a class="text-center btn btn-block bg-primary text-white border-dark" href="#">Transfer</a>
+            </div>
+            <div class="col-sm-6 col-12 my-2">
+                <a class="text-center btn btn-block bg-primary text-white border-dark" href="#">Edit Details</a>
+            </div>
+            <div class="col-sm-6 col-12 my-2">
+                <a class="text-center btn btn-block bg-primary text-white border-dark" href="#">Check activity</a>
+            </div>
+            <div class="col-sm-6 col-12 my-2">
+                <a class="text-center btn btn-block bg-primary text-white border-dark" href="#">Report</a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
