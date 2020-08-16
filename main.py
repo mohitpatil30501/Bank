@@ -20,7 +20,7 @@ def login_user():
     if result:
         return redirect("/profile", code=307)
     else:
-        return redirect("/error")
+        return render_template('error.html', title="Error", text="Oops..", path="/")
 
 
 @app.route('/auth/register', methods=['POST'])
@@ -35,7 +35,7 @@ def register_user():
     if result:
         return redirect("/profile", code=307)
     else:
-        return redirect("/error")
+        return render_template('error.html', title="Error", text="Oops..", path="/")
 
 
 @app.route('/')
@@ -53,5 +53,10 @@ def signup_template():
     return render_template('signup.html')
 
 
+@app.route('/profile', methods=['POST'])
+def profile_template():
+    return render_template('profile.html')
+
+
 if __name__ == '__main__':
-    app.run(port=5000)
+    app.run(port=5000, debug=True)
