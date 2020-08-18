@@ -1,4 +1,4 @@
-from flask import sessions
+from flask import session
 import base64
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
@@ -53,3 +53,11 @@ class LogIn:
         else:
             self.database_password = username_result['Password']
             return self.Key_Maker()
+
+    def User_session_create(self):
+        user_data = Database.find_one('user_data', {'Username': self.username})
+        session['name'] = user_data['Name']
+        session['mobile'] = user_data['Mobile']
+        session['username'] = self.username
+        session['balance'] = user_data['Balance']
+        session['key'] = self.key

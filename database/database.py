@@ -11,6 +11,10 @@ class Database:
         Database.DATABASE = client['bank']
 
     @staticmethod
+    def update_one(collection, data1, data2):
+        return Database.DATABASE[collection].update_one(data1, data2)
+
+    @staticmethod
     def insert_one(collection, data):
         Database.DATABASE[collection].insert_one(data)
 

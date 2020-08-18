@@ -1,11 +1,12 @@
-from flask import sessions
-import random
+from flask import session
 import base64
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.fernet import Fernet
+
 from database.database import Database
+from module.history import History
 
 
 class SignUp:
@@ -17,6 +18,7 @@ class SignUp:
         self.confirm_password = str(confirm_password)
         self.key = None
         self.balance = 0
+        self.history = []
 
     def json(self):
         return{
@@ -24,17 +26,25 @@ class SignUp:
             'Mobile': self.mobile,
             'Username': self.username,
             'Password': self.password,
-            'Balance': self.balance
+            'Balance': self.balance,
+            'History': self.history
         }
 
     def Upload_to_database(self):
         upload_to_database_command = self.json()
         upload_to_database_result = Database.insert_one("user_data", upload_to_database_command)
         if upload_to_database_result:
-            print(upload_to_database_result)
             return False
         else:
+            self.History_Account_Create()
             return True
+
+    @staticmethod
+    def Decryption(key, message):
+        encoded_message = message.encode()
+        binary_message = key.decrypt(encoded_message)
+        decoded_message = binary_message.decode()
+        return decoded_message
 
     @staticmethod
     def Encryption(key, message):
@@ -64,29 +74,32 @@ class SignUp:
         self.key = base64.urlsafe_b64encode(kdf.derive(encoded_key_base))
         return self.Encode_Data()
 
-    def Mobile_Verification(self):
-        generate_otp = int(random.randint(100000, 999999))
-        # Send otp using sms
-        print("OTP:" + str(generate_otp))
-        # ==================
-        enter_otp = int(input("\n\nEnter OTP:"))
-        if enter_otp != generate_otp:
-            print("OTP not Matched...!")
-            return False
-        else:
-            return self.Key_Maker()
-
     def Username_Repeat(self):
         username_result = Database.find_one("user_data", {'Username': self.username})
         if username_result is None:
-            return self.Mobile_Verification()
+            return self.Key_Maker()
         else:
-            print("Username already exits, Choose different one...!")
             return False
 
     def Check_Retype_Password(self):
         if self.password != self.confirm_password:
-            print("Retyped Password not matched...!")
             return False
         else:
             return self.Username_Repeat()
+
+    def History_Account_Create(self):
+        history_object = History(self.username, 'Create', 0, 'Account Created Successfully.')
+        history_object.Id_Generate()
+
+    def User_session_create(self):
+        user_data = Database.find_one('user_data', {'Username': self.username})
+        session['name'] = user_data['Name']
+        session['mobile'] = user_data['Mobile']
+        session['username'] = self.username
+        session['balance'] = user_data['Balance']
+        session['key'] = self.key
+
+    @staticmethod
+    def Otp_Call():
+        session['otp_progress'] = False
+        session['process'] = 'register'
