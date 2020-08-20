@@ -4,6 +4,7 @@ from module.login import LogIn
 from module.signup import SignUp
 from module.profile import Profile
 from module.deposit import Deposit
+from module.withdraw import Withdraw
 from database.database import Database
 
 app = Flask(__name__)
@@ -13,6 +14,32 @@ app.secret_key = "mohit"
 @app.before_first_request
 def initialize_database():
     Database.initialize()
+
+
+@app.route('/withdraw', methods=['POST'])
+def withdraw_template():
+    return render_template('withdraw.html')
+
+
+@app.route('/auth/withdraw', methods=['POST'])
+def withdraw_user():
+    payment_amount = request.form['withdraw']
+    Withdraw.Otp_Call(payment_amount)
+    return redirect('/otp', code=307)
+
+
+@app.route('/proceed/withdraw', methods=['POST'])
+def Proceed_Withdraw():
+    if session['otp_progress']:
+        withdraw_object = Withdraw(session['payment_amount'], session['username'], session['name'], session['mobile'],
+                                   session['balance'], session['key'])
+        withdraw_process_status = withdraw_object.Proceed_withdraw()
+        if withdraw_process_status:
+            return redirect('/success', code=307)
+        else:
+            return render_template('error.html', title="Error", text="Oops..", path="/")
+    else:
+        return render_template('error.html', title="Error", text="Oops..", path="/")
 
 
 @app.route('/deposit', methods=['POST'])
@@ -69,6 +96,11 @@ def profile_template():
         return render_template('profile.html', name=user_profile_object.name, balance=user_profile_object.balance)
     else:
         return render_template('error.html', title="Error", text="Oops..", path="/")
+
+
+@app.route('/success', methods=['POST'])
+def Success():
+    return render_template("success.html")
 
 
 @app.route('/logout')

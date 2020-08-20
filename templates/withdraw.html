@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container righteous text-center" style="max-width: 600px;">
+    <h1 class="text-center pt-5">Bank</h1>
+    <p class="text-center montserrat-alt">Developed by Mohit Patil.</p>
+    <div class="container montserrat border border-dark rounded p-3" style="max-width: 480px;">
+        <form id="withdraw-form" action="/auth/withdraw" method="post">
+            <h3 class="text-center righteous">Withdraw</h3>
+            <div class="form-group">
+                <label for="withdraw">Withdraw:</label>
+                <input type="text" class="form-control montserrat-alt" placeholder="Enter Amount" id="withdraw" name="withdraw"  autocapitalize="off" spellcheck="false" autocomplete="off" oninput="numberOnly(this.id);" required>
+            </div>
+            <div class="text-center">
+                <div class="px-2 text-center my-2">
+                    <button type="submit" class="btn btn-primary border border-dark" id="submit-button" style="width:100%">Check</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function numberOnly(id)
+            {
+                var element = document.getElementById(id);
+                var regex = /[^0-9]/gi;
+                element.value = element.value.replace(regex, "");
+            }
+</script>
+{% endblock %}
